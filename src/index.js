@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import tasks from "./reducers";
+import tasksReducer from "./reducers";
 import App from "./App";
 import "./index.css";
 
@@ -17,7 +17,16 @@ const enhancers = compose(
 
 const store = createStore(tasks, defaultState, enhancers); */
 
-const store = createStore(tasks, composeWithDevTools(applyMiddleware(thunk)));
+const rootReducer = (state = {}, action) => {
+  return {
+    tasks: tasksReducer(state.tasks, action)
+  };
+};
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+);
 
 ReactDOM.render(
   <Provider store={store}>
