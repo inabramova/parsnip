@@ -37,7 +37,7 @@ hr {
   background: #76dc76;
   color: #fff;
   border: 1px solid transparent;
-  borderradius: 6px;
+  border-radius: 6px;
   font: inherit;
   cursor: pointer;
 }

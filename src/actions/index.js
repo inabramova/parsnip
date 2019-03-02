@@ -1,27 +1,61 @@
+import * as api from "../api";
+
 let _id = 1;
 export function uniqueId() {
   return _id++;
 }
 
-export function createTask({ title, description }) {
+export function fetchTasksSucceeded(tasks) {
   return {
-    type: "CREATE_TASK",
+    type: "FETCH_TASKS_SUCCEEDED",
     payload: {
-      id: uniqueId(),
-      title,
-      description,
-      status: "Unstarted"
+      tasks
     }
   };
 }
 
-export function editTask(id, params = {}) {
-  console.log(id, params);
+export function fetchTasks() {
+  return dispatch => {
+    api.fetchTasks().then(resp => {
+      dispatch(fetchTasksSucceeded(resp.data));
+    });
+  };
+}
+
+function createTaskSucceeded(task) {
   return {
-    type: "EDIT_TASK",
+    type: "CREATE_TASK_SUCCEEDED",
     payload: {
-      id: id,
-      params
+      task
     }
   };
+}
+
+export function createTask({ title, description, status = "Unstarted" }) {
+  return dispatch => {
+    api.createTask({ title, description, status }).then(resp => {
+      dispatch(createTaskSucceeded(resp.data));
+    });
+  };
+}
+
+function editTaskSucceeded(task) {
+  return {
+    type: "EDIT_TASK_SUCCEEDED",
+    payload: { task }
+  };
+}
+
+export function editTask(id, params = {}) {
+  return (dispatch, getState) => {
+    const task = getTaskById(getState().tasks, id);
+    const updatedTask = Object.assign({}, task, params);
+    api.editTask(id, updatedTask).then(resp => {
+      dispatch(editTaskSucceeded(resp.data));
+    });
+  };
+}
+
+function getTaskById(tasks, id) {
+  return tasks.find(task => task.id === id);
 }
