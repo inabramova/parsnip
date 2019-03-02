@@ -15,8 +15,20 @@
     {
       "title": "React in Action",
       "description": "sorta read through it",
-      "status": "Completed",
+      "status": "In Progress",
       "id": 3
+    },
+    {
+      "title": "asdfasdf",
+      "description": "adfasfdsadf",
+      "status": "In Progress",
+      "id": 4
+    },
+    {
+      "title": "ghfdgsdgf",
+      "description": "sfgsdfg",
+      "status": "Unstarted",
+      "id": 5
     }
   ]
 }

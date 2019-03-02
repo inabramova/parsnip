@@ -8,6 +8,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import tasksReducer from "./reducers";
 import App from "./App";
 import "./index.css";
+import logger from "./middleware/logger";
+import apiMiddleware from "./middleware/api";
 
 /*
 //alternative way hooking up devTools
@@ -25,7 +27,7 @@ const rootReducer = (state = {}, action) => {
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk, apiMiddleware, logger))
 );
 
 ReactDOM.render(
