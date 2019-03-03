@@ -77,6 +77,13 @@ hr {
   background: #fff;
   box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12),
     0 2px 4px rgba(0, 0, 0, 0.24);
+  position: relative;
+}
+
+.task-timer {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
 }
 
 .task-header {
@@ -102,4 +109,27 @@ hr {
 
 .task-list-title {
   margin-bottom: 10px;
+}
+/*selects*/
+.select-style {
+  border: 1px solid #ccc;
+  width: 120px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fafafa linear-gradient(to bottom, white, mistyrose) no-repeat 90%
+    50%;
+}
+
+.select-style select {
+  padding: 5px 8px;
+  width: 130%;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+  -webkit-appearance: none;
+}
+
+.select-style select:focus {
+  outline: none;
 }

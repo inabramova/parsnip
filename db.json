@@ -4,19 +4,22 @@
       "title": "asdfsdf",
       "description": "adfsadf",
       "status": "Unstarted",
-      "id": 1
+      "id": 1,
+      "timer": 60
     },
     {
       "title": "learn Redux",
       "description": "better learn it now!",
       "status": "In Progress",
-      "id": 2
+      "id": 2,
+      "timer": 14
     },
     {
       "title": "React in Action",
       "description": "sorta read through it",
       "status": "Completed",
-      "id": 3
+      "id": 3,
+      "timer": 0
     }
   ]
 }

@@ -4,6 +4,14 @@ let _id = 1;
 export function uniqueId() {
   return _id++;
 }
+function fetchTasksFailed(error) {
+  return {
+    type: "FETCH_TASKS_FAILED",
+    payload: {
+      error
+    }
+  };
+}
 
 export function fetchTasksSucceeded(tasks) {
   return {
@@ -45,15 +53,6 @@ function createTaskSucceeded(task) {
   };
 }
 
-function fetchTasksFailed(error) {
-  return {
-    type: "FETCH_TASKS_FAILED",
-    payload: {
-      error
-    }
-  };
-}
-
 export function createTask({ title, description, status = "Unstarted" }) {
   return dispatch => {
     api.createTask({ title, description, status }).then(resp => {
@@ -69,12 +68,26 @@ function editTaskSucceeded(task) {
   };
 }
 
+function progressTimerStart(taskId) {
+  return { type: "TIMER_STARTED", payload: { taskId } };
+}
+
+function progressTimerStopped(taskId) {
+  return { type: "TIMER_STOPPED", payload: { taskId } };
+}
+
 export function editTask(id, params = {}) {
   return (dispatch, getState) => {
     const task = getTaskById(getState().tasks.tasks, id);
     const updatedTask = Object.assign({}, task, params);
     api.editTask(id, updatedTask).then(resp => {
       dispatch(editTaskSucceeded(resp.data));
+      if (resp.data.status === "In Progress") {
+        return dispatch(progressTimerStart(resp.data.id));
+      }
+      if (task.status === "In Progress") {
+        return dispatch(progressTimerStopped(task.id));
+      }
     });
   };
 }

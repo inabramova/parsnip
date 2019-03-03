@@ -6,16 +6,19 @@ const Task = props => {
     <div className="task">
       <div className="task-header">
         <div>{props.task.title}</div>
-        <select value={props.task.status} onChange={onStatusChange}>
-          {TASK_STATUSES.map(status => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
+        <div className="select-style">
+          <select value={props.task.status} onChange={onStatusChange}>
+            {TASK_STATUSES.map(status => (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <hr />
       <div className="task-body">{props.task.description}</div>
+      <div className="task-timer">{props.task.timer}s</div>
     </div>
   );
   function onStatusChange(e) {
