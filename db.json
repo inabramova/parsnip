@@ -1,25 +1,59 @@
 {
+  "projects": [
+    {
+      "id": 1,
+      "name": "Short-Term Goals"
+    },
+    {
+      "id": 2,
+      "name": "Long-Term Goals"
+    }
+  ],
   "tasks": [
     {
-      "title": "asdfsdf",
-      "description": "adfsadf",
-      "status": "Unstarted",
       "id": 1,
-      "timer": 60
+      "title": "Learn Redux",
+      "description": "The store, actions, and reducers, oh my!",
+      "status": "Unstarted",
+      "timer": 86,
+      "projectId": 1
     },
     {
-      "title": "learn Redux",
-      "description": "better learn it now!",
-      "status": "In Progress",
       "id": 2,
-      "timer": 14
+      "title": "Peace on Earth",
+      "description": "No big deal.",
+      "status": "Unstarted",
+      "timer": 132,
+      "projectId": 2
     },
     {
-      "title": "React in Action",
-      "description": "sorta read through it",
-      "status": "Completed",
       "id": 3,
-      "timer": 0
+      "title": "Create Facebook for dogs",
+      "description": "The hottest new social network",
+      "status": "Completed",
+      "timer": 332,
+      "projectId": 1
+    },
+    {
+      "title": "get new fish",
+      "description": "also, clean the pond",
+      "status": "Unstarted",
+      "id": 4,
+      "projectId": 1
+    },
+    {
+      "title": "adfaf",
+      "description": "adfadf",
+      "status": "Unstarted",
+      "id": 5,
+      "projectId": 1
+    },
+    {
+      "title": "adfasf",
+      "description": "adfadfasdf",
+      "status": "Unstarted",
+      "id": 6,
+      "projectId": 1
     }
   ]
 }

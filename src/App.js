@@ -1,15 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import TasksPage from "./components/TasksPage";
-import FlashMessage from "./components/FlashMessage";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Header from './components/Header';
+import TasksPage from './components/TasksPage';
+import FlashMessage from './components/FlashMessage';
 // import { createTask, editTask, fetchTasks } from "./actions";
-import { createTask, editTask, fetchTasksStarted, filterTasks } from "./actions";
-import { tasksByStatus } from './reducers';
+import {
+  createTask,
+  editTask,
+  fetchProjects,
+  filterTasks,
+  setCurrentProjectId,
+} from './actions';
+import { getGroupedAndFilteredTasks } from './reducers';
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(fetchTasksStarted());
+    this.props.dispatch(fetchProjects());
   }
+
   onCreateTask = ({ title, description }) => {
     this.props.dispatch(createTask({ title, description }));
   };
@@ -20,19 +28,27 @@ class App extends Component {
 
   onSearch = searchTerm => {
     this.props.dispatch(filterTasks(searchTerm));
-  }
+  };
+
+  onCurrentProjectChange = e => {
+    this.props.dispatch(setCurrentProjectId(Number(e.target.value)));
+  };
 
   render() {
     return (
       <div className="container">
         {this.props.error && <FlashMessage message={this.props.error} />}
         <div className="main-content">
+          <Header
+            projects={this.props.projects}
+            onCurrentProjectChange={this.onCurrentProjectChange}
+          />
           <TasksPage
             tasks={this.props.tasks}
             onCreateTask={this.onCreateTask}
             onStatusChange={this.onStatusChange}
             isLoading={this.props.isLoading}
-            onSearch = {this.onSearch}
+            onSearch={this.onSearch}
           />
         </div>
       </div>
@@ -40,10 +56,15 @@ class App extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
-  const {isLoading, error} = state.tasks;
-  return { tasks:tasksByStatus(state), isLoading, error };
+  const { isLoading, error, items } = state.projects;
+
+  return {
+    tasks: getGroupedAndFilteredTasks(state),
+    projects: items,
+    isLoading,
+    error,
+  };
 }
 
 export default connect(mapStateToProps)(App);
