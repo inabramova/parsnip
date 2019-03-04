@@ -1,6 +1,10 @@
+import { createSelector } from 'reselect';
+
 const initialState = {
   tasks: [],
-  isLoading: false
+  isLoading: false,
+  error:null,
+  searchTerm:'',
 };
 
 export default function tasks(state = initialState, action) {
@@ -48,6 +52,9 @@ export default function tasks(state = initialState, action) {
         tasks: state.tasks.concat(action.payload.task)
       };
     }
+    case "FILTER_TASKS" : {
+      return {...state,searchTerm:action.payload.searchTerm};
+    }
     case "TIMER_INCREMENT": {
       const nextTasks = state.tasks.map(task => {
         if (task.id === action.payload.taskId) {
@@ -63,3 +70,14 @@ export default function tasks(state = initialState, action) {
     }
   }
 }
+const getTasks = state=>state.tasks.tasks;
+const getSearchTerm = state=> state.tasks.searchTerm;
+
+export const getFilteredTasks = createSelector([getTasks, getSearchTerm], (tasks, searchTerm)=>{
+  return tasks.filter(task => {
+    return task.title.match(new RegExp(searchTerm, 'i'));
+  });
+});
+export const tasksByStatus = createSelector([getFilteredTasks], (tasks)=>{
+  return tasks.reduce((acc, task)=>({...acc,[task.status]:(acc[task.status]||[]).concat(task)}),{});
+});

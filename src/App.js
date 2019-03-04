@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import TasksPage from "./components/TasksPage";
 import FlashMessage from "./components/FlashMessage";
 // import { createTask, editTask, fetchTasks } from "./actions";
-import { createTask, editTask, fetchTasksStarted } from "./actions";
+import { createTask, editTask, fetchTasksStarted, filterTasks } from "./actions";
+import { tasksByStatus } from './reducers';
 
 class App extends Component {
   componentDidMount() {
@@ -17,6 +18,10 @@ class App extends Component {
     this.props.dispatch(editTask(id, { status }));
   };
 
+  onSearch = searchTerm => {
+    this.props.dispatch(filterTasks(searchTerm));
+  }
+
   render() {
     return (
       <div className="container">
@@ -27,6 +32,7 @@ class App extends Component {
             onCreateTask={this.onCreateTask}
             onStatusChange={this.onStatusChange}
             isLoading={this.props.isLoading}
+            onSearch = {this.onSearch}
           />
         </div>
       </div>
@@ -34,9 +40,10 @@ class App extends Component {
   }
 }
 
+
 function mapStateToProps(state) {
-  const { tasks, isLoading, error } = state.tasks;
-  return { tasks, isLoading, error };
+  const {isLoading, error} = state.tasks;
+  return { tasks:tasksByStatus(state), isLoading, error };
 }
 
 export default connect(mapStateToProps)(App);

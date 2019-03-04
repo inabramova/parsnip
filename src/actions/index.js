@@ -92,6 +92,10 @@ export function editTask(id, params = {}) {
   };
 }
 
+export function filterTasks(searchTerm){
+  return {type:"FILTER_TASKS", payload:{searchTerm}};
+}
+
 function getTaskById(tasks, id) {
   return tasks.find(task => task.id === id);
 }

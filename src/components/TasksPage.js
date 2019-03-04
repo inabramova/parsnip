@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TaskList from "./TaskList";
 
-export const TASK_STATUSES = ["Unstarted", "In Progress", "Completed"];
 
 class TasksPage extends Component {
   constructor(props) {
@@ -11,6 +10,11 @@ class TasksPage extends Component {
       title: "",
       description: ""
     };
+  }
+
+  onSearch = e => {
+    console.log('search term ', e.target.value);
+    this.props.onSearch(e.target.value);
   }
 
   onTitleChange = e => {
@@ -47,8 +51,8 @@ class TasksPage extends Component {
       return <div className="tasks-loading">Loading...</div>;
     }
     const { tasks } = this.props;
-    return TASK_STATUSES.map(status => {
-      const statusTasks = tasks.filter(task => task.status === status);
+    return Object.keys(tasks).map(status => {
+      const statusTasks = tasks[status];
       return (
         <TaskList
           key={status}
@@ -63,7 +67,8 @@ class TasksPage extends Component {
   render() {
     return (
       <div className="tasks">
-        <div className="task-list-header">
+        <div className="tasks-header">
+        <input type="text" placeholder="search.." onChange={this.onSearch}/>
           <button className="button button-default" onClick={this.toggleForm}>
             + New task
           </button>
