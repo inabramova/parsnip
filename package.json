@@ -110,8 +110,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/home/abramova1/sandbox/parsnip/node_modules/jest-watch-typeahead/filename.js",
-      "/home/abramova1/sandbox/parsnip/node_modules/jest-watch-typeahead/testname.js"
+      "/home/inabramova/proj/parsnip/node_modules/jest-watch-typeahead/filename.js",
+      "/home/inabramova/proj/parsnip/node_modules/jest-watch-typeahead/testname.js"
     ]
   },
   "babel": {

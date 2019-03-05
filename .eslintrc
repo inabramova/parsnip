@@ -31,6 +31,21 @@
         "singleQuote": true,
         "printWidth": 80
       }
+    ],
+    "no-unused-vars": [
+      1,
+      {
+        "ignoreSiblings": true,
+        "argsIgnorePattern": "res|next|^err|reject"
+      }
+    ],
+    "quotes": [
+      2,
+      "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
     ]
   },
   "env": {

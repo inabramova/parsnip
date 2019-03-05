@@ -59,7 +59,7 @@ function fetchProjectsFailed(err) {
 }
 function createTaskRequested() {
   return {
-    type: 'CREATE_TASK_REQUESTED',
+    type: 'CREATE_TASK_STARTED',
   };
 }
 
@@ -80,10 +80,12 @@ export function createTask({
 }) {
   return dispatch => {
     dispatch(createTaskRequested());
-    api.createTask({ projectId, title, description, status }).then(resp => {
-      setTimeout(() => dispatch(createTaskSucceeded(resp.data)), 2000);
-      // dispatch(createTaskSucceeded(resp.data));
-    });
+    return api
+      .createTask({ projectId, title, description, status, timer: 0 })
+      .then(resp => {
+        // setTimeout(() => dispatch(createTaskSucceeded(resp.data)), 2000);
+        dispatch(createTaskSucceeded(resp.data));
+      });
   };
 }
 
