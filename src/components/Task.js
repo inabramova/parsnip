@@ -11,7 +11,7 @@ const Task = props => {
         <div>{props.task.title}</div>
         <div className="select-style">
           <select value={props.task.status} onChange={onStatusChange}>
-            {TASK_STATUSES.map(status => (
+            {Object.values(TASK_STATUSES).map(status => (
               <option key={status} value={status}>
                 {status}
               </option>

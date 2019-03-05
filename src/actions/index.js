@@ -1,5 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import * as api from '../api';
+import { TASK_STATUSES } from '../constants';
 
 const taskSchema = new schema.Entity('tasks');
 const projectSchema = new schema.Entity('projects', {
@@ -111,10 +112,10 @@ export function editTask(id, params = {}) {
     // eslint-disable-next-line consistent-return
     api.editTask(id, updatedTask).then(resp => {
       dispatch(editTaskSucceeded(resp.data));
-      if (resp.data.status === 'In Progress') {
+      if (resp.data.status === TASK_STATUSES.IN_PROGRESS) {
         return dispatch(progressTimerStart(resp.data.id));
       }
-      if (task.status === 'In Progress') {
+      if (task.status === TASK_STATUSES.IN_PROGRESS) {
         return dispatch(progressTimerStopped(task.id));
       }
     });
@@ -155,6 +156,15 @@ export function fetchProjects() {
         const projects = resp.data;
 
         const normalizedData = normalize(projects, [projectSchema]);
+        /* trying to trigger timer start on all incoming tasks.
+          need to watch out and set only on active projects
+        */
+        // const tasksMap = normalizedData.entities.tasks;
+        // Object.keys(tasksMap).forEach(taskId => {
+        //   if (tasksMap[taskId].status === TASK_STATUSES.IN_PROGRESS) {
+        //     dispatch(progressTimerStart(taskId));
+        //   }
+        // });
 
         dispatch(receiveEntities(normalizedData));
 

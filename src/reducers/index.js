@@ -193,7 +193,7 @@ export const getGroupedAndFilteredTasks = createSelector(
   [getFilteredTasks],
   taskObjs => {
     const grouped = {};
-    TASK_STATUSES.forEach(status => {
+    Object.values(TASK_STATUSES).forEach(status => {
       grouped[status] = taskObjs.filter(task => task.status === status);
     });
     return grouped;
