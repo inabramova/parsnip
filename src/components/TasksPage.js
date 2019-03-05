@@ -34,7 +34,9 @@ class TasksPage extends Component {
   };
 
   toggleForm = () => {
-    this.setState({ showNewCardForm: !this.state.showNewCardForm });
+    this.setState(prevstate => ({
+      showNewCardForm: !prevstate.showNewCardForm,
+    }));
   };
 
   resetForm() {
@@ -68,7 +70,11 @@ class TasksPage extends Component {
       <div className="tasks">
         <div className="tasks-header">
           <input type="text" placeholder="search.." onChange={this.onSearch} />
-          <button className="button button-default" onClick={this.toggleForm}>
+          <button
+            type="button"
+            className="button button-default"
+            onClick={this.toggleForm}
+          >
             + New task
           </button>
         </div>

@@ -50,9 +50,9 @@ function fetchProjectsStarted(boards) {
   return { type: 'FETCH_PROJECTS_STARTED', payload: { boards } };
 }
 
-function fetchProjectsSucceeded(projects) {
-  return { type: 'FETCH_PROJECTS_SUCCEEDED', payload: { projects } };
-}
+// function fetchProjectsSucceeded(projects) {
+//   return { type: 'FETCH_PROJECTS_SUCCEEDED', payload: { projects } };
+// }
 
 function fetchProjectsFailed(err) {
   return { type: 'FETCH_PROJECTS_FAILED', payload: err };
@@ -106,6 +106,7 @@ export function editTask(id, params = {}) {
   return (dispatch, getState) => {
     const task = getState().tasks.items[id];
     const updatedTask = Object.assign({}, task, params);
+    // eslint-disable-next-line consistent-return
     api.editTask(id, updatedTask).then(resp => {
       dispatch(editTaskSucceeded(resp.data));
       if (resp.data.status === 'In Progress') {
@@ -122,9 +123,9 @@ export function filterTasks(tasksSearchTerm) {
   return { type: 'FILTER_TASKS', payload: { tasksSearchTerm } };
 }
 
-function getTaskById(tasks, id) {
-  return tasks.find(task => task.id === id);
-}
+// function getTaskById(tasks, id) {
+//   return tasks.find(task => task.id === id);
+// }
 
 export function setCurrentProjectId(id) {
   return {

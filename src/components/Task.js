@@ -2,6 +2,9 @@ import React from 'react';
 import { TASK_STATUSES } from '../constants';
 
 const Task = props => {
+  function onStatusChange(e) {
+    props.onStatusChange(props.task.id, e.target.value);
+  }
   return (
     <div className="task">
       <div className="task-header">
@@ -21,9 +24,6 @@ const Task = props => {
       <div className="task-timer">{props.task.timer}s</div>
     </div>
   );
-  function onStatusChange(e) {
-    props.onStatusChange(props.task.id, e.target.value);
-  }
 };
 
 export default Task;
