@@ -57,6 +57,11 @@ function fetchProjectsSucceeded(projects) {
 function fetchProjectsFailed(err) {
   return { type: 'FETCH_PROJECTS_FAILED', payload: err };
 }
+function createTaskRequested() {
+  return {
+    type: 'CREATE_TASK_REQUESTED',
+  };
+}
 
 function createTaskSucceeded(task) {
   return {
@@ -74,8 +79,10 @@ export function createTask({
   status = 'Unstarted',
 }) {
   return dispatch => {
+    dispatch(createTaskRequested());
     api.createTask({ projectId, title, description, status }).then(resp => {
-      dispatch(createTaskSucceeded(resp.data));
+      setTimeout(() => dispatch(createTaskSucceeded(resp.data)), 2000);
+      // dispatch(createTaskSucceeded(resp.data));
     });
   };
 }

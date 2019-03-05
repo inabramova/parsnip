@@ -185,16 +185,16 @@ const getTasksByProjectId = state => {
 
 export const getFilteredTasks = createSelector(
   [getTasksByProjectId, getSearchTerm],
-  (tasks, searchTerm) =>
-    tasks.filter(task => task.title.match(new RegExp(searchTerm, 'i')))
+  (taskObjs, searchTerm) =>
+    taskObjs.filter(task => task.title.match(new RegExp(searchTerm, 'i')))
 );
 
 export const getGroupedAndFilteredTasks = createSelector(
   [getFilteredTasks],
-  tasks => {
+  taskObjs => {
     const grouped = {};
     TASK_STATUSES.forEach(status => {
-      grouped[status] = tasks.filter(task => task.status === status);
+      grouped[status] = taskObjs.filter(task => task.status === status);
     });
     return grouped;
   }
