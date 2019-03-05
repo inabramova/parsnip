@@ -1,8 +1,13 @@
 import { createSelector } from 'reselect';
 import { TASK_STATUSES } from '../constants';
 
-const initialState = {
-  items: [],
+const initialTaskState = {
+  items: {},
+  isLoading: false,
+  error: null,
+};
+const initialProjectState = {
+  items: {},
   isLoading: false,
   error: null,
 };
@@ -28,8 +33,20 @@ export function page(state = initialPageState, action) {
   }
 }
 
-export function projects(state = initialState, action) {
+export function projects(state = initialProjectState, action) {
   switch (action.type) {
+    case 'RECEIVE_ENTITIES': {
+      const { entities } = action.payload;
+      if (entities && entities.projects) {
+        return {
+          ...state,
+          isLoading: false,
+          items: entities.projects,
+        };
+      }
+
+      return state;
+    }
     case 'FETCH_PROJECTS_FAILED': {
       return {
         ...state,
@@ -50,62 +67,43 @@ export function projects(state = initialState, action) {
         items: action.payload.projects,
       };
     }
+
     case 'CREATE_TASK_SUCCEEDED': {
       const { task } = action.payload;
-      const projectIndex = state.items.findIndex(
-        project => project.id === task.projectId
-      );
-      const project = state.items[projectIndex];
 
-      const nextProject = {
-        ...project,
-        tasks: project.tasks.concat(task),
-      };
+      const project = state.items[task.projectId];
 
       return {
         ...state,
-        items: [
-          ...state.items.slice(0, projectIndex),
-          nextProject,
-          ...state.items.slice(projectIndex + 1),
-        ],
+        items: {
+          ...state.items,
+          [task.projectId]: {
+            ...project,
+            tasks: project.tasks.concat(task.id),
+          },
+        },
       };
     }
-    case 'EDIT_TASK_SUCCEEDED': {
-      const { task } = action.payload;
-      const projectIndex = state.items.findIndex(
-        project => project.id === task.projectId
-      );
-      const project = state.items[projectIndex];
-      const taskIndex = project.tasks.findIndex(t => t.id === task.id);
-
-      const nextProject = {
-        ...project,
-        tasks: [
-          ...project.tasks.slice(0, taskIndex),
-          task,
-          ...project.tasks.slice(taskIndex + 1),
-        ],
-      };
-
-      return {
-        ...state,
-        items: [
-          ...state.items.slice(0, projectIndex),
-          nextProject,
-          ...state.items.slice(projectIndex + 1),
-        ],
-      };
-    }
-
     default: {
       return state;
     }
   }
 }
 
-export function tasks(state = initialState, action) {
+export function tasks(state = initialTaskState, action) {
   switch (action.type) {
+    case 'RECEIVE_ENTITIES': {
+      const { entities } = action.payload;
+      if (entities && entities.tasks) {
+        return {
+          ...state,
+          isLoading: false,
+          items: entities.tasks,
+        };
+      }
+
+      return state;
+    }
     case 'CREATE_TASK': {
       return {
         tasks: state.tasks.concat(action.payload),
@@ -113,14 +111,13 @@ export function tasks(state = initialState, action) {
     }
     case 'EDIT_TASK_SUCCEEDED': {
       const { payload } = action;
+      const task = state.items[payload.task.id];
       return {
         ...state,
-        tasks: state.tasks.map(task => {
-          if (task.id === payload.task.id) {
-            return Object.assign({}, task, payload.task);
-          }
-          return task;
-        }),
+        items: {
+          ...state.items,
+          [task.id]: Object.assign({}, task, payload.task),
+        },
       };
     }
     case 'FETCH_TASKS_FAILED': {
@@ -144,23 +141,31 @@ export function tasks(state = initialState, action) {
       };
     }
     case 'CREATE_TASK_SUCCEEDED': {
+      const { task } = action.payload;
+
+      const nextTasks = {
+        ...state.items,
+        [task.id]: task,
+      };
+
       return {
         ...state,
-        tasks: state.tasks.concat(action.payload.task),
+        items: nextTasks,
       };
     }
     case 'FILTER_TASKS': {
       return { ...state, searchTerm: action.payload.searchTerm };
     }
     case 'TIMER_INCREMENT': {
-      const nextTasks = state.tasks.map(task => {
-        if (task.id === action.payload.taskId) {
-          return { ...task, timer: task.timer + 1 };
-        }
-        return task;
-      });
-
-      return { ...state, tasks: nextTasks };
+      const task = state.items[action.payload.taskId];
+      const nextTask = { ...task, timer: task.timer + 1 };
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [action.payload.taskId]: nextTask,
+        },
+      };
     }
     default: {
       return state;
@@ -170,15 +175,12 @@ export function tasks(state = initialState, action) {
 const getSearchTerm = state => state.page.tasksSearchTerm;
 
 const getTasksByProjectId = state => {
-  if (!state.page.currentProjectId) {
+  const { currentProjectId } = state.page;
+  if (!currentProjectId || !state.projects.items[currentProjectId]) {
     return [];
   }
-
-  const currentProject = state.projects.items.find(
-    project => project.id === state.page.currentProjectId
-  );
-
-  return currentProject.tasks;
+  const taskIds = state.projects.items[state.page.currentProjectId].tasks;
+  return taskIds.map(id => state.tasks.items[id]);
 };
 
 export const getFilteredTasks = createSelector(
@@ -197,3 +199,5 @@ export const getGroupedAndFilteredTasks = createSelector(
     return grouped;
   }
 );
+
+export const getProjects = state => Object.values(state.projects.items);

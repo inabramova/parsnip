@@ -1,21 +1,20 @@
-import React, { Component } from "react";
-import TaskList from "./TaskList";
-
+import React, { Component } from 'react';
+import TaskList from './TaskList';
 
 class TasksPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showNewCardForm: false,
-      title: "",
-      description: ""
+      title: '',
+      description: '',
     };
   }
 
   onSearch = e => {
     console.log('search term ', e.target.value);
     this.props.onSearch(e.target.value);
-  }
+  };
 
   onTitleChange = e => {
     this.setState({ title: e.target.value });
@@ -25,19 +24,11 @@ class TasksPage extends Component {
     this.setState({ description: e.target.value });
   };
 
-  resetForm() {
-    this.setState({
-      showNewCardForm: false,
-      title: "",
-      description: ""
-    });
-  }
-
   onCreateTask = e => {
     e.preventDefault();
     this.props.onCreateTask({
       title: this.state.title,
-      description: this.state.description
+      description: this.state.description,
     });
     this.resetForm();
   };
@@ -45,6 +36,14 @@ class TasksPage extends Component {
   toggleForm = () => {
     this.setState({ showNewCardForm: !this.state.showNewCardForm });
   };
+
+  resetForm() {
+    this.setState({
+      showNewCardForm: false,
+      title: '',
+      description: '',
+    });
+  }
 
   renderTaskLists() {
     if (this.props.isLoading) {
@@ -68,7 +67,7 @@ class TasksPage extends Component {
     return (
       <div className="tasks">
         <div className="tasks-header">
-        <input type="text" placeholder="search.." onChange={this.onSearch}/>
+          <input type="text" placeholder="search.." onChange={this.onSearch} />
           <button className="button button-default" onClick={this.toggleForm}>
             + New task
           </button>

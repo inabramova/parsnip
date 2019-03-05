@@ -14,7 +14,7 @@
       "id": 1,
       "title": "Learn Redux",
       "description": "The store, actions, and reducers, oh my!",
-      "status": "Unstarted",
+      "status": "In Progress",
       "timer": 86,
       "projectId": 1
     },
@@ -30,15 +30,16 @@
       "id": 3,
       "title": "Create Facebook for dogs",
       "description": "The hottest new social network",
-      "status": "Completed",
+      "status": "Unstarted",
       "timer": 332,
       "projectId": 1
     },
     {
       "title": "get new fish",
       "description": "also, clean the pond",
-      "status": "Unstarted",
+      "status": "Completed",
       "id": 4,
+      "timer": 139,
       "projectId": 1
     },
     {
@@ -46,13 +47,15 @@
       "description": "adfadf",
       "status": "Unstarted",
       "id": 5,
+      "timer": 132,
       "projectId": 1
     },
     {
       "title": "adfasf",
       "description": "adfadfasdf",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 6,
+      "timer": 132,
       "projectId": 1
     }
   ]

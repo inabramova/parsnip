@@ -1,5 +1,5 @@
-import React from "react";
-import { TASK_STATUSES } from "../constants";
+import React from 'react';
+import { TASK_STATUSES } from '../constants';
 
 const Task = props => {
   return (

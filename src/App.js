@@ -11,7 +11,7 @@ import {
   filterTasks,
   setCurrentProjectId,
 } from './actions';
-import { getGroupedAndFilteredTasks } from './reducers';
+import { getGroupedAndFilteredTasks, getProjects } from './reducers';
 
 class App extends Component {
   componentDidMount() {
@@ -19,11 +19,15 @@ class App extends Component {
   }
 
   onCreateTask = ({ title, description }) => {
-    this.props.dispatch(createTask({ title, description }));
+    this.props.dispatch(
+      createTask({ title, description, projectId: this.props.currentProjectId })
+    );
   };
 
   onStatusChange = (id, status) => {
-    this.props.dispatch(editTask(id, { status }));
+    this.props.dispatch(
+      editTask(id, { status, projectId: this.props.currentProjectId })
+    );
   };
 
   onSearch = searchTerm => {
@@ -57,11 +61,12 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { isLoading, error, items } = state.projects;
+  const { isLoading, error } = state.projects;
 
   return {
     tasks: getGroupedAndFilteredTasks(state),
-    projects: items,
+    projects: getProjects(state),
+    currentProjectId: state.page.currentProjectId,
     isLoading,
     error,
   };

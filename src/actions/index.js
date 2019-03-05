@@ -1,9 +1,11 @@
+import { normalize, schema } from 'normalizr';
 import * as api from '../api';
 
-let _id = 1;
-export function uniqueId() {
-  return _id++;
-}
+const taskSchema = new schema.Entity('tasks');
+const projectSchema = new schema.Entity('projects', {
+  tasks: [taskSchema],
+});
+
 function fetchTasksFailed(error) {
   return {
     type: 'FETCH_TASKS_FAILED',
@@ -56,23 +58,6 @@ function fetchProjectsFailed(err) {
   return { type: 'FETCH_PROJECTS_FAILED', payload: err };
 }
 
-export function fetchProjects() {
-  return (dispatch, getState) => {
-    dispatch(fetchProjectsStarted());
-
-    return api
-      .fetchProjects()
-      .then(resp => {
-        const projects = resp.data;
-        dispatch(fetchProjectsSucceeded(projects));
-      })
-      .catch(err => {
-        console.error(err);
-        fetchProjectsFailed(err);
-      });
-  };
-}
-
 function createTaskSucceeded(task) {
   return {
     type: 'CREATE_TASK_SUCCEEDED',
@@ -82,9 +67,14 @@ function createTaskSucceeded(task) {
   };
 }
 
-export function createTask({ title, description, status = 'Unstarted' }) {
+export function createTask({
+  projectId,
+  title,
+  description,
+  status = 'Unstarted',
+}) {
   return dispatch => {
-    api.createTask({ title, description, status }).then(resp => {
+    api.createTask({ projectId, title, description, status }).then(resp => {
       dispatch(createTaskSucceeded(resp.data));
     });
   };
@@ -107,7 +97,7 @@ function progressTimerStopped(taskId) {
 
 export function editTask(id, params = {}) {
   return (dispatch, getState) => {
-    const task = getTaskById(getState().tasks.tasks, id);
+    const task = getState().tasks.items[id];
     const updatedTask = Object.assign({}, task, params);
     api.editTask(id, updatedTask).then(resp => {
       dispatch(editTaskSucceeded(resp.data));
@@ -135,5 +125,36 @@ export function setCurrentProjectId(id) {
     payload: {
       id,
     },
+  };
+}
+
+function receiveEntities(entities) {
+  return {
+    type: 'RECEIVE_ENTITIES',
+    payload: entities,
+  };
+}
+
+export function fetchProjects() {
+  return (dispatch, getState) => {
+    dispatch(fetchProjectsStarted());
+
+    return api
+      .fetchProjects()
+      .then(resp => {
+        const projects = resp.data;
+
+        const normalizedData = normalize(projects, [projectSchema]);
+
+        dispatch(receiveEntities(normalizedData));
+
+        if (!getState().page.currentProjectId) {
+          const defaultProjectId = projects[0].id;
+          dispatch(setCurrentProjectId(defaultProjectId));
+        }
+      })
+      .catch(err => {
+        fetchProjectsFailed(err);
+      });
   };
 }
