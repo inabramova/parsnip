@@ -11,6 +11,7 @@
     }
   },
   "rules": {
+    "no-debugger": 1,
     "no-console": 0,
     "max-len": ["error", 100],
     "no-process-env": "off",
