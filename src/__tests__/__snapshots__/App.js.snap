@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the App container should match the last snapshot 1`] = `
+<div
+  className="container"
+>
+  <FlashMessage
+    message="Boom!"
+  />
+  <div
+    className="main-content"
+  >
+    <Header
+      onCurrentProjectChange={[Function]}
+      projects={Array []}
+    />
+    <TasksPage
+      onCreateTask={[Function]}
+      onSearch={[Function]}
+      onStatusChange={[Function]}
+      tasks={Array []}
+    />
+  </div>
+</div>
+`;

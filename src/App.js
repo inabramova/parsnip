@@ -13,7 +13,7 @@ import {
 } from './actions';
 import { getGroupedAndFilteredTasks, getProjects } from './reducers';
 
-class App extends Component {
+export class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchProjects());
   }

@@ -47,8 +47,8 @@ export function fetchTasks() {
   };
 }
 
-function fetchProjectsStarted(boards) {
-  return { type: 'FETCH_PROJECTS_STARTED', payload: { boards } };
+function fetchProjectsStarted() {
+  return { type: 'FETCH_PROJECTS_STARTED' };
 }
 
 // function fetchProjectsSucceeded(projects) {
