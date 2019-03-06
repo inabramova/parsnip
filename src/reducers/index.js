@@ -172,9 +172,9 @@ export function tasks(state = initialTaskState, action) {
     }
   }
 }
-const getSearchTerm = state => state.page.tasksSearchTerm;
+export const getSearchTerm = state => state.page.tasksSearchTerm;
 
-const getTasksByProjectId = state => {
+export const getTasksByProjectId = state => {
   const { currentProjectId } = state.page;
   if (!currentProjectId || !state.projects.items[currentProjectId]) {
     return [];
