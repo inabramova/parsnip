@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { createTask } from './index';
+import { createTask } from '../actions/index';
 import * as api from '../api';
 
 jest.unmock('../api');
