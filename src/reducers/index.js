@@ -25,7 +25,7 @@ export function page(state = initialPageState, action) {
       };
     }
     case 'FILTER_TASKS': {
-      return { ...state, tasksSearchTerm: action.tasksSearchTerm };
+      return { ...state, tasksSearchTerm: action.payload.tasksSearchTerm };
     }
     default: {
       return state;
@@ -152,9 +152,6 @@ export function tasks(state = initialTaskState, action) {
         ...state,
         items: nextTasks,
       };
-    }
-    case 'FILTER_TASKS': {
-      return { ...state, searchTerm: action.payload.searchTerm };
     }
     case 'TIMER_INCREMENT': {
       const task = state.items[action.payload.taskId];

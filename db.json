@@ -14,16 +14,16 @@
       "id": 1,
       "title": "Learn Redux",
       "description": "The store, actions, and reducers, oh my!",
-      "status": "In Progress",
-      "timer": 86,
+      "status": "Unstarted",
+      "timer": 122,
       "projectId": 1
     },
     {
       "id": 2,
       "title": "Peace on Earth",
       "description": "No big deal.",
-      "status": "Unstarted",
-      "timer": 132,
+      "status": "Completed",
+      "timer": 233,
       "projectId": 2
     },
     {
@@ -31,21 +31,21 @@
       "title": "Create Facebook for dogs",
       "description": "The hottest new social network",
       "status": "Unstarted",
-      "timer": 332,
+      "timer": 380,
       "projectId": 1
     },
     {
       "title": "get new fish",
       "description": "also, clean the pond",
-      "status": "Completed",
+      "status": "Unstarted",
       "id": 4,
-      "timer": 139,
+      "timer": 156,
       "projectId": 1
     },
     {
       "title": "adfaf",
       "description": "adfadf",
-      "status": "Unstarted",
+      "status": "In Progress",
       "id": 5,
       "timer": 132,
       "projectId": 1
@@ -53,10 +53,34 @@
     {
       "title": "adfasf",
       "description": "adfadfasdf",
-      "status": "In Progress",
+      "status": "Unstarted",
       "id": 6,
-      "timer": 132,
+      "timer": 170,
       "projectId": 1
+    },
+    {
+      "projectId": 2,
+      "title": "fghfgh",
+      "description": "fghfgh",
+      "status": "Completed",
+      "id": 7,
+      "timer": 105
+    },
+    {
+      "projectId": 1,
+      "title": "zxcvxcv",
+      "description": "zxcvxccvb",
+      "status": "Unstarted",
+      "timer": 40,
+      "id": 8
+    },
+    {
+      "projectId": 1,
+      "title": "sdfsadf",
+      "description": "adfsdf",
+      "status": "Unstarted",
+      "timer": 3,
+      "id": 9
     }
   ]
 }

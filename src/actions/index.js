@@ -109,15 +109,15 @@ export function editTask(id, params = {}) {
   return (dispatch, getState) => {
     const task = getState().tasks.items[id];
     const updatedTask = Object.assign({}, task, params);
-    // eslint-disable-next-line consistent-return
-    api.editTask(id, updatedTask).then(resp => {
-      dispatch(editTaskSucceeded(resp.data));
+    return api.editTask(id, updatedTask).then(resp => {
+      const succeeded = dispatch(editTaskSucceeded(resp.data));
       if (resp.data.status === TASK_STATUSES.IN_PROGRESS) {
         return dispatch(progressTimerStart(resp.data.id));
       }
       if (task.status === TASK_STATUSES.IN_PROGRESS) {
         return dispatch(progressTimerStopped(task.id));
       }
+      return succeeded;
     });
   };
 }

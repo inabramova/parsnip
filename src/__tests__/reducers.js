@@ -1,4 +1,4 @@
-import { tasks, projects } from '../reducers';
+import { tasks, projects, page } from '../reducers';
 
 describe(' tasks reducer', () => {
   const initialState = {
@@ -9,6 +9,21 @@ describe(' tasks reducer', () => {
 
   it('should return the initialState', () => {
     expect(tasks(undefined, {})).toEqual(initialState);
+  });
+
+  it('should handle filter tasks action', ()=>{
+    const action = {
+      type: 'FILTER_TASKS',
+      payload: { tasksSearchTerm: 'bla' },
+    };
+    const initialPageState = {
+      currentProjectId: 1,
+      tasksSearchTerm: 'hah',
+    };
+    expect(page(initialPageState, action)).toEqual({
+      ...initialPageState,
+      tasksSearchTerm: 'bla',
+    });
   });
 
   it('should handle the FETCH_TASKS_STARTED action', () => {
