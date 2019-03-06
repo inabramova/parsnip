@@ -10,16 +10,8 @@ exports[`the App container should match the last snapshot 1`] = `
   <div
     className="main-content"
   >
-    <Header
-      onCurrentProjectChange={[Function]}
-      projects={Array []}
-    />
-    <TasksPage
-      onCreateTask={[Function]}
-      onSearch={[Function]}
-      onStatusChange={[Function]}
-      tasks={Array []}
-    />
+    <Connect(Header) />
+    <Connect(TasksPage) />
   </div>
 </div>
 `;

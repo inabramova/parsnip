@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createTask, editTask, filterTasks } from '../actions';
 import TaskList from './TaskList';
+import { getGroupedAndFilteredTasks } from '../reducers';
 
 class TasksPage extends Component {
   constructor(props) {
@@ -11,8 +15,17 @@ class TasksPage extends Component {
     };
   }
 
+  onCreateTask = ({ title, description }) => {
+    this.props.dispatch(
+      createTask({ title, description, projectId: this.props.currentProjectId })
+    );
+  };
+
+  onStatusChange = (id, status) => {
+    this.props.editTask(id, { status, projectId: this.props.currentProjectId });
+  };
+
   onSearch = e => {
-    console.log('search term ', e.target.value);
     this.props.onSearch(e.target.value);
   };
 
@@ -26,7 +39,7 @@ class TasksPage extends Component {
 
   onCreateTask = e => {
     e.preventDefault();
-    this.props.onCreateTask({
+    this.props.createTask({
       title: this.state.title,
       description: this.state.description,
     });
@@ -59,7 +72,7 @@ class TasksPage extends Component {
           key={status}
           status={status}
           tasks={statusTasks}
-          onStatusChange={this.props.onStatusChange}
+          onStatusChange={this.onStatusChange}
         />
       );
     });
@@ -106,4 +119,27 @@ class TasksPage extends Component {
   }
 }
 
-export default TasksPage;
+function mapStateToProps(state) {
+  const { isLoading } = state.projects;
+
+  return {
+    isLoading,
+    tasks: getGroupedAndFilteredTasks(state),
+    currentProjectId: state.page.currentProjectId,
+  };
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      createTask,
+      editTask,
+      onSearch: filterTasks,
+    },
+    dispatch
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TasksPage);

@@ -11,7 +11,7 @@ describe(' tasks reducer', () => {
     expect(tasks(undefined, {})).toEqual(initialState);
   });
 
-  it('should handle filter tasks action', ()=>{
+  it('should handle filter tasks action', () => {
     const action = {
       type: 'FILTER_TASKS',
       payload: { tasksSearchTerm: 'bla' },

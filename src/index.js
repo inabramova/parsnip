@@ -9,7 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootSaga from './sagas';
 
 import { tasks, projects, page } from './reducers';
-import App from './App';
+import ConnectedApp from './App';
 import './index.css';
 
 /*
@@ -37,7 +37,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ConnectedApp />
   </Provider>,
   document.getElementById('root')
 );

@@ -197,4 +197,8 @@ export const getGroupedAndFilteredTasks = createSelector(
   }
 );
 
-export const getProjects = state => Object.values(state.projects.items);
+export const getProjects = createSelector(
+  [state => state.projects],
+  projectState =>
+    Object.keys(projectState.items).map(id => projectState.items[id])
+);

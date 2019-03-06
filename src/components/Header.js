@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setCurrentProjectId } from '../actions';
+import { getProjects } from '../reducers';
 
-const Header = props => {
-  const projectOptions = props.projects.map(project => (
-    <option key={project.id} value={project.id}>
-      {project.name}
-    </option>
-  ));
+export class Header extends Component {
+  onCurrentProjectChange = e => {
+    this.props.setCurrentProjectId(Number(e.target.value));
+  };
 
-  return (
-    <div className="project-item">
-      Project:
-      <select onChange={props.onCurrentProjectChange} className="project-menu">
-        {projectOptions}
-      </select>
-    </div>
-  );
-};
+  render() {
+    console.log('rendering header');
+    const projectOptions = this.props.projects.map(project => (
+      <option key={project.id} value={project.id}>
+        {project.name}
+      </option>
+    ));
 
-export default Header;
+    return (
+      <div className="project-item">
+        Project:
+        <select onChange={this.onCurrentProjectChange} className="project-menu">
+          {projectOptions}
+        </select>
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    projects: getProjects(state),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  { setCurrentProjectId }
+)(Header);

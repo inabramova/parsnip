@@ -12,7 +12,7 @@
   },
   "rules": {
     "no-debugger": 1,
-    "no-console": 0,
+    "no-console": 1,
     "max-len": ["error", 100],
     "no-process-env": "off",
     "comma-dangle": 0,
@@ -23,7 +23,7 @@
         "extensions": [".js", ".jsx"]
       }
     ],
-    "react/prop-types": 0,
+    "react/prop-types": 1,
     "react/destructuring-assignment": [0, "never"],
     "prettier/prettier": [
       "error",
