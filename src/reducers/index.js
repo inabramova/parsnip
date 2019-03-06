@@ -186,12 +186,14 @@ export const getFilteredTasks = createSelector(
     taskObjs.filter(task => task.title.match(new RegExp(searchTerm, 'i')))
 );
 
-export const getGroupedAndFilteredTasks = createSelector(
+export const getGroupedAndFilteredTaskIds = createSelector(
   [getFilteredTasks],
   taskObjs => {
     const grouped = {};
     Object.values(TASK_STATUSES).forEach(status => {
-      grouped[status] = taskObjs.filter(task => task.status === status);
+      grouped[status] = taskObjs
+        .filter(task => task.status === status)
+        .map(task => task.id);
     });
     return grouped;
   }

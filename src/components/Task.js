@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { TASK_STATUSES } from '../constants';
 
-const Task = props => {
+export const Task = props => {
   function onStatusChange(e) {
     props.onStatusChange(props.task.id, e.target.value);
   }
@@ -26,4 +27,10 @@ const Task = props => {
   );
 };
 
-export default Task;
+function mapStateToProps(state, ownProps) {
+  return {
+    task: state.tasks.items[ownProps.taskId],
+  };
+}
+
+export default connect(mapStateToProps)(Task);

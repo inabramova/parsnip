@@ -1,54 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the Task component should match the last snapshot 1`] = `
-<div
-  className="task"
->
-  <div
-    className="task-header"
-  >
-    <div>
-      A
-    </div>
-    <div
-      className="select-style"
-    >
-      <select
-        onChange={[Function]}
-        value="Unstarted"
-      >
-        <option
-          key="Unstarted"
-          value="Unstarted"
-        >
-          Unstarted
-        </option>
-        <option
-          key="In Progress"
-          value="In Progress"
-        >
-          In Progress
-        </option>
-        <option
-          key="Completed"
-          value="Completed"
-        >
-          Completed
-        </option>
-      </select>
-    </div>
-  </div>
-  <hr />
-  <div
-    className="task-body"
-  >
-    a
-  </div>
-  <div
-    className="task-timer"
-  >
-    0
-    s
-  </div>
-</div>
+<ContextConsumer>
+  <Component />
+</ContextConsumer>
 `;

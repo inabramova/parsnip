@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createTask, editTask, filterTasks } from '../actions';
 import TaskList from './TaskList';
-import { getGroupedAndFilteredTasks } from '../reducers';
+import { getGroupedAndFilteredTaskIds } from '../reducers';
 
 class TasksPage extends Component {
   constructor(props) {
@@ -64,14 +64,14 @@ class TasksPage extends Component {
     if (this.props.isLoading) {
       return <div className="tasks-loading">Loading...</div>;
     }
-    const { tasks } = this.props;
-    return Object.keys(tasks).map(status => {
-      const statusTasks = tasks[status];
+    const { taskIdsMap } = this.props;
+    return Object.keys(taskIdsMap).map(status => {
+      const statusTaskIds = taskIdsMap[status];
       return (
         <TaskList
           key={status}
           status={status}
-          tasks={statusTasks}
+          taskIds={statusTaskIds}
           onStatusChange={this.onStatusChange}
         />
       );
@@ -124,7 +124,7 @@ function mapStateToProps(state) {
 
   return {
     isLoading,
-    tasks: getGroupedAndFilteredTasks(state),
+    taskIdsMap: getGroupedAndFilteredTaskIds(state),
     currentProjectId: state.page.currentProjectId,
   };
 }
